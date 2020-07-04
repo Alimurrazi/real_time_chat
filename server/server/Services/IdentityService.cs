@@ -41,7 +41,6 @@ namespace server.Services
                 {
                     return mailCheckResponse;
                 }
-              //  user.Password = this.GetHashedPassword(user.Password);
                 user.Password = _passwordHasher.GetHashedPassword(user.Password);
                 user.Id = Guid.NewGuid().ToString();
                 await _userRepository.CreateAsync(user);
