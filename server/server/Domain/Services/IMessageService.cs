@@ -7,8 +7,8 @@ using server.Domain.Models;
 
 namespace server.Domain.Services
 {
-    interface IMessageService
+    public interface IMessageService
     {
-       public Task<BaseResponse> SendMessageAsync(Message message);
+       Task<BaseResponse> SendMessageAsync(Message message);
     }
 }

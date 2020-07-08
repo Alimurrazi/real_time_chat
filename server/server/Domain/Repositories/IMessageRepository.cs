@@ -6,7 +6,7 @@ using server.Domain.Models;
 
 namespace server.Domain.Repositories
 {
-    interface IMessageRepository
+   public interface IMessageRepository
     {
         Task SaveMessageAsync(Message message);
     }

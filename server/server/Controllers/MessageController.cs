@@ -5,6 +5,8 @@ using server.Extensions;
 using server.Hubs;
 using server.Resources;
 using System.Threading.Tasks;
+using server.Services;
+using server.Domain.Services;
 
 namespace server.Controllers
 {
@@ -12,25 +14,34 @@ namespace server.Controllers
     public class MessageController : Controller
     {
         private IHubContext<MessageHub> _messageHubContext;
+        private readonly IMessageService _messageService;
 
-        public MessageController(IHubContext<MessageHub> MessageHubContext){
+        public MessageController(IHubContext<MessageHub> MessageHubContext, IMessageService messageService){
             _messageHubContext = MessageHubContext;
+            _messageService = messageService;
         }
 
+        [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Message message)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.GetErrorMessages());
             }
-
-
-
-            return Ok();
+            var result = await _messageService.SendMessageAsync(message);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
-        public IActionResult Get(){
-            _messageHubContext.Clients.All.SendAsync("send","Hello from server");
-            return Ok();
-        }
+        //[HttpGet]
+        //public IActionResult Get(){
+        //    _messageHubContext.Clients.All.SendAsync("send","Hello from server");
+        //    return Ok();
+        //}
     }
 }

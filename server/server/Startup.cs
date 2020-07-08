@@ -55,7 +55,10 @@ namespace server
             services.AddSignalR();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
+
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IMessageService, MessageService>();
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();

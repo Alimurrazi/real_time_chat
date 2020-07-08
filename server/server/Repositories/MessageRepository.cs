@@ -16,9 +16,10 @@ namespace server.Repositories
         {
             _messages = _database.GetCollection<Message>(settings. MessageCollection);
         }
-        public Task SaveMessageAsync(Message message)
+        public async Task SaveMessageAsync(Message message)
         {
-            throw new NotImplementedException();
+            await _messages.InsertOneAsync(message);
+           // throw new NotImplementedException();
         }
     }
 }
