@@ -7,6 +7,7 @@ using server.Resources;
 using System.Threading.Tasks;
 using server.Services;
 using server.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace server.Controllers
 {
@@ -22,6 +23,7 @@ namespace server.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostAsync([FromBody] Message message)
         {
             if (!ModelState.IsValid)
