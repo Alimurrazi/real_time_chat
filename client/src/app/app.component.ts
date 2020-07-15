@@ -16,15 +16,16 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient){
   }
 
+    notificationInit(){
+      this.startConnection();
+      this.subscribeMsg();
+      setTimeout(()=>{
+        this.sendMsg();
+      },1000);
+    }
+
   ngOnInit(){
-  this.startConnection();
-  this.subscribeMsg();
- // this.sendMsg();
-  setTimeout(()=>{
-    this.sendMsg();
-  },1000);
- // this.addTransferChartDataListener();
- // this.startHttpRequest();
+  //  this.notificationInit();
   }
 
   public startConnection = () => {
