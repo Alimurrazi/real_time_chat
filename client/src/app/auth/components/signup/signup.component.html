@@ -1,14 +1,19 @@
-<form [formGroup]="form">
-    <mat-form-field class="example-full-width">
-        <mat-label>Mail</mat-label>
-        <input matInput formControlName="mail">
+<div class="content">
+
+  <form [formGroup]="form" fxLayout="column">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Outline form field</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="mail">
     </mat-form-field>
 
-    <mat-form-field class="example-full-width">
-        <mat-label>Password</mat-label>
-        <input matInput formControlName="password">
+    <mat-form-field appearance="outline">
+      <mat-label>Outline form field</mat-label>
+      <input matInput placeholder="Placeholder" formControlName="password">
     </mat-form-field>
 
     <button mat-raised-button color="primary" (click)="submit(form.value)">Submit</button>
 
 </form>
+
+</div>

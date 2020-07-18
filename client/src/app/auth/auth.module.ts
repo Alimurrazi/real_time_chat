@@ -6,6 +6,7 @@ import { MaterialModule } from '../shared/material.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     MaterialModule,
    // MatFormFieldModule,
    // MatInputModule,
+    FlexLayoutModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes)
