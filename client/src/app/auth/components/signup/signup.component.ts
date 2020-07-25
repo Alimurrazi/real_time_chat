@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -9,7 +11,9 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 export class SignupComponent implements OnInit {
 
   form: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router) { }
 
   formInit() {
     this.form = this.formBuilder.group({
@@ -22,6 +26,14 @@ export class SignupComponent implements OnInit {
     this.formInit();
   }
 
-  submit(data){}
+  submit(data) {
+    this.authService.logIn(data).subscribe((res:any) => {
+      if(res.isSuccess === true){
+        this.router.navigate(['dashboard']);
+      }
+      console.log(res);
+      debugger;
+    });
+  }
 
 }

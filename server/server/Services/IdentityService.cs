@@ -86,7 +86,7 @@ namespace server.Services
                 var users = await _userRepository.GetUserByValue("Mail", mail);
                 if (users.Count == 0)
                 {
-                    return new BaseResponse(false, null, null);
+                    return new BaseResponse(true, null, null);
                 }
                 else
                 {

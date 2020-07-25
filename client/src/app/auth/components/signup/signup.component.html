@@ -1,15 +1,15 @@
 <div class="content">
 
-  <form [formGroup]="form" fxLayout="column">
+  <form class="py-32" [formGroup]="form" fxLayout="column">
 
     <mat-form-field appearance="outline">
-      <mat-label>Outline form field</mat-label>
-      <input matInput placeholder="Placeholder" formControlName="mail">
+      <mat-label>Mail</mat-label>
+      <input matInput formControlName="mail">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Outline form field</mat-label>
-      <input matInput placeholder="Placeholder" formControlName="password">
+      <mat-label>Password</mat-label>
+      <input matInput formControlName="password">
     </mat-form-field>
 
     <button mat-raised-button color="primary" (click)="submit(form.value)">Submit</button>
