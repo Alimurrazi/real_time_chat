@@ -131,5 +131,19 @@ namespace server.Services
         {
             throw new NotImplementedException();
         }
+
+        public async Task<BaseResponse> GetUserById(string userId)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserByValue("Id", userId);
+                return new BaseResponse(true, null, user);
+            }
+            catch (Exception ex)
+            {
+                return GetErrorResponse(ex.Message);
+            }
+
+        }
     }
 }

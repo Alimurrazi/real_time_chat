@@ -49,7 +49,7 @@ namespace server.Security.Tokens
             var handler = new JwtSecurityTokenHandler();
             var accessToken = handler.WriteToken(securityToken);
 
-            return new AccessToken(accessToken, accessTokenExpiration.Ticks, refreshToken);
+            return new AccessToken(accessToken, accessTokenExpiration.Ticks, refreshToken, user.Id);
         }
 
         private RefreshToken BuildRefreshToken()

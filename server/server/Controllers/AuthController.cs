@@ -19,8 +19,7 @@ namespace server.Controllers
             _iidentityService = iidentityService;
         }
 
-        [Route("/login")]
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody]UserCredentialResource userCredentialResource)
         {
 
@@ -35,8 +34,7 @@ namespace server.Controllers
             return Ok(response);
         }
 
-        [Route("/token/refresh")]
-        [HttpPost]
+        [HttpPost("token/refresh")]
 
         public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenResource refreshTokenResource)
         {
@@ -47,6 +45,14 @@ namespace server.Controllers
 
             var response = await _iidentityService.RefreshTokenAsync(refreshTokenResource);
 
+            return Ok(response);
+        }
+
+        [HttpGet("getUserById")]
+
+        public async Task<IActionResult> GetUserById(string userId)
+        {
+            var response = await _iidentityService.GetUserById(userId);
             return Ok(response);
         }
     }

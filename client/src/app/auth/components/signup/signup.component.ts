@@ -26,10 +26,15 @@ export class SignupComponent implements OnInit {
     this.formInit();
   }
 
+  getNextStep() {
+    this.router.navigate(['dashboard']);
+  }
+
   submit(data) {
     this.authService.logIn(data).subscribe((res:any) => {
       if(res.isSuccess === true){
-        this.router.navigate(['dashboard']);
+        debugger;
+        localStorage.setItem('loggedInUserId', res.data.userId);
       }
       console.log(res);
       debugger;

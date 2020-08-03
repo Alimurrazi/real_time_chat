@@ -16,5 +16,6 @@ namespace server.Domain.Services
         Task<BaseResponse> CreateAccessTokenAsync(string mail, string password);
         Task<BaseResponse> RefreshTokenAsync(RefreshTokenResource refreshTokenResource);
         Task<BaseResponse> RevokeToken(string token);
+        Task<BaseResponse> GetUserById(string userId);
     }
 }
