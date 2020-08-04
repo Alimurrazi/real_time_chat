@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
     this.hubConnection = new signalR.HubConnectionBuilder()
                             .withUrl('https://localhost:5001/message')
                             .build();
- 
+
     this.hubConnection
       .start()
       .then(() => console.log('Connection started'))
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit {
   sendMsg(){
     this.hubConnection.invoke('send','Hello world');
   }
- 
+
   private addTransferChartDataListener = () => {
     this.hubConnection.on('send', (data) => {
       this.data = data;

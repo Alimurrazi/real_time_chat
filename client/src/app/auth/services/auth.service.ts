@@ -23,7 +23,12 @@ export class AuthService {
     return subject.asObservable();
   }
 
-  getUserInfoById() {
-
+  getUserInfoById(userId) {
+    const subject = new Subject();
+    const url = environment.url + '/auth/getUserById/' + userId;
+    this.http.get(url).subscribe((res) => {
+      subject.next(res);
+    });
+    return subject.asObservable();
   }
 }

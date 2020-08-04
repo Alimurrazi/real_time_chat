@@ -48,7 +48,7 @@ namespace server.Controllers
             return Ok(response);
         }
 
-        [HttpGet("getUserById")]
+        [HttpGet("getUserById/{userId}")]
 
         public async Task<IActionResult> GetUserById(string userId)
         {

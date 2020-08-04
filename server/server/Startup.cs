@@ -111,7 +111,7 @@ namespace server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers ();
+                endpoints.MapControllers();
                 endpoints.MapHub<MessageHub>("message");
             });
         }

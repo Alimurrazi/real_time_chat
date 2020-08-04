@@ -19,25 +19,33 @@ export class SignupComponent implements OnInit {
     this.form = this.formBuilder.group({
       mail: ['', Validators.required],
       password: ['', Validators.required]
-    })
+    });
   }
 
   ngOnInit(): void {
     this.formInit();
   }
 
-  getNextStep() {
+  goNextStep() {
     this.router.navigate(['dashboard']);
   }
 
+  saveLoggedInUserData(userId) {
+    this.authService.getUserInfoById(userId).subscribe((res: any) => {
+      if (res.isSuccess) {
+        this.authService.loggedInUser.next(res.data);
+      }
+    });
+  }
+
   submit(data) {
-    this.authService.logIn(data).subscribe((res:any) => {
-      if(res.isSuccess === true){
-        debugger;
+    this.authService.logIn(data).subscribe((res: any) => {
+      if (res.isSuccess === true){
         localStorage.setItem('loggedInUserId', res.data.userId);
+        this.saveLoggedInUserData(res.data.userId);
+        this.goNextStep();
       }
       console.log(res);
-      debugger;
     });
   }
 

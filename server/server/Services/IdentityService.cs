@@ -136,7 +136,8 @@ namespace server.Services
         {
             try
             {
-                User user = await _userRepository.GetUserByValue("Id", userId);
+             //   User user = await _userRepository.GetUserByValue("Id", userId);
+                User user = await _userRepository.GetUserById(userId);
                 return new BaseResponse(true, null, user);
             }
             catch (Exception ex)
