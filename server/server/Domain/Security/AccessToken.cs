@@ -7,7 +7,8 @@ namespace server.Domain.Security
 {
     public class AccessToken: JsonWebToken
     {
-        public RefreshToken RefreshToken { get; private set; }
+     //   public RefreshToken RefreshToken { get; private set; }
+        public string RefreshToken { get; private set; }
         public string UserId { get; private set; }
 
         public AccessToken(string token, long expiration, RefreshToken refreshToken, string userId): base(token, expiration)
@@ -17,7 +18,7 @@ namespace server.Domain.Security
                 throw new ArgumentException("Specify a valid refresh token.");
             }
             UserId = userId;
-            RefreshToken = refreshToken;
+            RefreshToken = refreshToken.Token;
         }
     }
 }

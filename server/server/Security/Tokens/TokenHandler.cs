@@ -18,7 +18,7 @@ namespace server.Security.Tokens
         private readonly TokenOptions _tokenOptions;
         private readonly SigningConfiguration _signingConfiguration;
         private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
-        public TokenHandler(IOptions<TokenOptions>tokenOptionsSnapshot, SigningConfiguration signingConfiguration, IPasswordHasher passwordHasher)
+        public TokenHandler(IOptions<TokenOptions> tokenOptionsSnapshot, SigningConfiguration signingConfiguration, IPasswordHasher passwordHasher)
         {
             _passwordHasher = passwordHasher;
             _tokenOptions = tokenOptionsSnapshot.Value;
@@ -34,13 +34,23 @@ namespace server.Security.Tokens
             return accessToken;
         }
 
+        private List<Claim> getCalims(User user)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Mail),
+                new Claim(ClaimTypes.Role, user.Role)
+            };
+            return claims;
+        }
+
         private AccessToken BuildAccessToken(User user, RefreshToken refreshToken)
         {
             var accessTokenExpiration = DateTime.UtcNow.AddSeconds(_tokenOptions.AccessTokenExpiration);
             var securityToken = new JwtSecurityToken(
                 issuer: _tokenOptions.Issuer,
                 audience: _tokenOptions.Audience,
-                claims: new List<Claim>(),
+                claims: this.getCalims(user),
                 expires: accessTokenExpiration,
                 notBefore: DateTime.UtcNow,
                 signingCredentials: _signingConfiguration.SigningCredentials
