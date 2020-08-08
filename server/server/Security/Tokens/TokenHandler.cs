@@ -9,6 +9,8 @@ using server.Domain.Models;
 using server.Domain.Security;
 using server.Domain.Security.IPasswordHasher;
 using server.Security.Hashing;
+using server.Domain.Storages;
+using server.Storages;
 
 namespace server.Security.Tokens
 {
@@ -17,7 +19,8 @@ namespace server.Security.Tokens
         private readonly IPasswordHasher _passwordHasher;
         private readonly TokenOptions _tokenOptions;
         private readonly SigningConfiguration _signingConfiguration;
-        private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
+      //  private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
+        private readonly IRefreshTokenCollection _refreshTokenCollection = new RefreshTokenCollection();
         public TokenHandler(IOptions<TokenOptions> tokenOptionsSnapshot, SigningConfiguration signingConfiguration, IPasswordHasher passwordHasher)
         {
             _passwordHasher = passwordHasher;
@@ -29,7 +32,8 @@ namespace server.Security.Tokens
         {
             var refreshToken = BuildRefreshToken();
             var accessToken = BuildAccessToken(user, refreshToken);
-            _refreshTokens.Add(refreshToken);
+           // _refreshTokens.Add(refreshToken);
+            _refreshTokenCollection.Add(refreshToken);
 
             return accessToken;
         }
@@ -83,10 +87,12 @@ namespace server.Security.Tokens
                 return null;
             }
 
-            var refreshToken = _refreshTokens.SingleOrDefault(refreshToken => refreshToken.Token == token);
+            // var refreshToken = _refreshTokens.SingleOrDefault(refreshToken => refreshToken.Token == token);
+            var refreshToken = _refreshTokenCollection.getToken(token);
             if (refreshToken != null)
             {
-                _refreshTokens.Remove(refreshToken);
+                _refreshTokenCollection.Revoke(token);
+            //    _refreshTokens.Remove(refreshToken);
             }
             return refreshToken;
         }

@@ -6,7 +6,7 @@ using server.Domain.Security;
 
 namespace server.Domain.Storages
 {
-    public interface IRefreshCollection
+    public interface IRefreshTokenCollection
     {
         void Add(RefreshToken refreshToken);
         RefreshToken getToken(string token);

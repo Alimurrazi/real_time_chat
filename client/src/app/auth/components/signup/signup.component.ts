@@ -12,8 +12,8 @@ export class SignupComponent implements OnInit {
 
   form: FormGroup;
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private router: Router) { }
+              private authService: AuthService,
+              private router: Router) { }
 
   formInit() {
     this.form = this.formBuilder.group({
@@ -41,11 +41,11 @@ export class SignupComponent implements OnInit {
   submit(data) {
     this.authService.logIn(data).subscribe((res: any) => {
       if (res.isSuccess === true){
+        localStorage.setItem('real_time_chat_token', res.data.token);
         localStorage.setItem('loggedInUserId', res.data.userId);
         this.saveLoggedInUserData(res.data.userId);
         this.goNextStep();
       }
-      console.log(res);
     });
   }
 

@@ -7,7 +7,7 @@ using server.Domain.Storages;
 
 namespace server.Storages
 {
-    public class RefreshCollection : IRefreshCollection
+    public class RefreshTokenCollection : IRefreshTokenCollection
     {
         private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
         public void Add(RefreshToken refreshToken)

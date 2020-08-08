@@ -23,6 +23,8 @@ using server.Repositories;
 using server.Security.Hashing;
 using server.Security.Tokens;
 using server.Domain.Security.IPasswordHasher;
+using server.Domain.Storages;
+using server.Storages;
 using TokenHandler = server.Security.Tokens.TokenHandler;
 
 namespace server
@@ -62,7 +64,8 @@ namespace server
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();
-            services.AddControllers ();
+            services.AddSingleton<IRefreshTokenCollection, RefreshTokenCollection>();
+            services.AddControllers();
             services.AddSwaggerGen();
 
             services.Configure<TokenOptions>(Configuration.GetSection("TokenOptions"));
@@ -112,7 +115,7 @@ namespace server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<MessageHub>("message");
+                endpoints.MapHub<MessageHub>("hub/message");
             });
         }
     }
