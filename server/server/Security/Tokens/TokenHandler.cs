@@ -19,7 +19,6 @@ namespace server.Security.Tokens
         private readonly IPasswordHasher _passwordHasher;
         private readonly TokenOptions _tokenOptions;
         private readonly SigningConfiguration _signingConfiguration;
-      //  private readonly ISet<RefreshToken> _refreshTokens = new HashSet<RefreshToken>();
         private readonly IRefreshTokenCollection _refreshTokenCollection = new RefreshTokenCollection();
         public TokenHandler(IOptions<TokenOptions> tokenOptionsSnapshot, SigningConfiguration signingConfiguration, IPasswordHasher passwordHasher)
         {
@@ -32,7 +31,6 @@ namespace server.Security.Tokens
         {
             var refreshToken = BuildRefreshToken();
             var accessToken = BuildAccessToken(user, refreshToken);
-           // _refreshTokens.Add(refreshToken);
             _refreshTokenCollection.Add(refreshToken);
 
             return accessToken;
@@ -42,7 +40,8 @@ namespace server.Security.Tokens
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, user.Mail),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+             //   new Claim(JwtRegisteredClaimNames.NameId, user.Id),
                 new Claim(ClaimTypes.Role, user.Role)
             };
             return claims;

@@ -1,5 +1,7 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -20,9 +22,13 @@ namespace server.Hubs
             {
                 try
                 {
-                    var jwt = "(the JTW here)";
-                    var handler = new JwtSecurityTokenHandler();
-                    var token = handler.ReadJwtToken(jwt);
+                    var principal = httpContext.User;
+                    var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                    //var JwtToken = httpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+                    //var handler = new JwtSecurityTokenHandler();
+                    //var token = handler.ReadJwtToken(JwtToken);
+
                     ////Add Logged User
                     //var userName = httpContext.Request.Query["user"].ToString();
                     ////var UserAgent = httpContext.Request.Headers["User-Agent"].FirstOrDefault().ToString();
@@ -32,7 +38,9 @@ namespace server.Hubs
                     ////Update Client
                     //await Clients.All.SendAsync("UpdateUserList", _connections.ToJson());
                 }
-                catch (Exception) { }
+                catch (Exception ex) {
+                    _ = ex.Message;
+                }
             }
         }
 
