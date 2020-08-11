@@ -29,7 +29,7 @@ using TokenHandler = server.Security.Tokens.TokenHandler;
 
 namespace server
 {
-    public class Startup<T>
+    public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -65,7 +65,7 @@ namespace server
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();
             services.AddSingleton<IRefreshTokenCollection, RefreshTokenCollection>();
-            services.AddSingleton<IConnectionMapping<T>, ConnectionMapping<T>>();
+            //services.AddSingleton<IConnectionMapping<T>, ConnectionMapping<T>>();
             services.AddControllers();
             services.AddSwaggerGen();
 

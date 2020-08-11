@@ -5,15 +5,32 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using server.Storages;
+using server.Domain.Models;
+using System.Collections.Generic;
 
 namespace server.Hubs
 {
     [Authorize]
     public class MessageHub: Hub
     {
-        //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
-        public async Task Send(string msg){
-             await Clients.All.SendAsync("send", msg);
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+        public async Task Send(Message message){
+            if (message!=null)
+            {
+                List<string> ReceiverConnectionIds = _connections.GetConnections(message.ReceiverId).ToList<string>();
+                if (ReceiverConnectionIds.Count() > 0)
+                {
+                    try
+                    {
+                        await Clients.Clients(ReceiverConnectionIds).SendAsync("ReceiveMessage", message);
+                    }
+                    catch (Exception ex)
+                    {
+                        _ = ex;
+                    }
+                }
+            }
         }
         public override async Task OnConnectedAsync()
         {
@@ -24,21 +41,30 @@ namespace server.Hubs
                 {
                     var principal = httpContext.User;
                     var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                    //var JwtToken = httpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
-                    //var handler = new JwtSecurityTokenHandler();
-                    //var token = handler.ReadJwtToken(JwtToken);
-
-                    ////Add Logged User
-                    //var userName = httpContext.Request.Query["user"].ToString();
-                    ////var UserAgent = httpContext.Request.Headers["User-Agent"].FirstOrDefault().ToString();
-                    //var connId = Context.ConnectionId.ToString();
-                    //_connections.Add(userName, connId);
-
-                    ////Update Client
-                    //await Clients.All.SendAsync("UpdateUserList", _connections.ToJson());
+                    _connections.Add(userId, Context.ConnectionId);
+                    await Clients.All.SendAsync("UpdaedUserList", _connections.ToJson());
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
+                    _ = ex.Message;
+                }
+            }
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            var httpContext = Context.GetHttpContext();
+            if (httpContext != null)
+            {
+                try
+                {
+                    var principal = httpContext.User;
+                    var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+                    _connections.Remove(userId, Context.ConnectionId);
+                    await Clients.All.SendAsync("UpdaedUserList", _connections.ToJson());
+                }
+                catch (Exception ex)
+                {
                     _ = ex.Message;
                 }
             }

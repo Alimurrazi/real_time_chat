@@ -41,7 +41,6 @@ namespace server.Security.Tokens
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-             //   new Claim(JwtRegisteredClaimNames.NameId, user.Id),
                 new Claim(ClaimTypes.Role, user.Role)
             };
             return claims;

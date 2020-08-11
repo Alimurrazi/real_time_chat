@@ -67,5 +67,11 @@ namespace server.Storages
             }
             return Enumerable.Empty<string>();
         }
+
+        public string ToJson()
+        {
+            var entries = _connections.Select(d => string.Format("\"{0}\": [\"{1}\"]", d.Key, string.Join(",", d.Value)));
+            return "{" + string.Join(",", entries) + "}";
+        }
     }
 }

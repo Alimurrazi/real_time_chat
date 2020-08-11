@@ -16,5 +16,12 @@ namespace server.Responses
             Message = message;
             Data = data;
         }
+
+        public BaseResponse GetErrorResponse(string msg)
+        {
+            List<string> errorMsg = new List<string>();
+            errorMsg.Add(msg);
+            return new BaseResponse(false, errorMsg, null);
+        }
     }
 }
