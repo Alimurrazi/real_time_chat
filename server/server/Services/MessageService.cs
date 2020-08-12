@@ -6,16 +6,22 @@ using server.Domain.Models;
 using server.Domain.Repositories;
 using server.Domain.Services;
 using server.Responses;
+using server.Storages;
+using server.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace server.Services
 {
     public class MessageService : IMessageService
     {
         private readonly IMessageRepository _messageRepository;
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+        private readonly IHubContext<MessageHub> _hubContext;
 
-        public MessageService(IMessageRepository messageRepository)
+        public MessageService(IMessageRepository messageRepository, IHubContext<MessageHub> hubContext)
         {
             _messageRepository = messageRepository;
+            _hubContext = hubContext;
         }
 
         public async Task<BaseResponse> SendMessageAsync(Message message)
@@ -24,6 +30,14 @@ namespace server.Services
             {
                 message.Id = Guid.NewGuid().ToString();
                 await _messageRepository.SaveMessageAsync(message);
+
+                List<string> ReceiverConnectionIds = _connections.GetConnections(message.ReceiverId).ToList<string>();
+                if (ReceiverConnectionIds.Count() > 0)
+                {
+                //    await _hubContext.Clients.All.SendAsync();
+                    await _hubContext.Clients.Clients(ReceiverConnectionIds).SendAsync("ReceiveMessage", message);
+                }
+
                 return new BaseResponse(true, null, null);
             }
             catch(Exception ex)

@@ -12,5 +12,6 @@ namespace server.Domain.Models
         public bool IsGroupMsg { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
+        public List<string> MsgReadByIds { get; set; }
     }
 }

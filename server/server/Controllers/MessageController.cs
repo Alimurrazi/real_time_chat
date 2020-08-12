@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace server.Controllers
 {
     [Route("api/message")]
+    [Authorize]
     public class MessageController : Controller
     {
         private IHubContext<MessageHub> _messageHubContext;
@@ -23,7 +24,6 @@ namespace server.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> PostAsync([FromBody] Message message)
         {
             if (!ModelState.IsValid)
@@ -40,10 +40,5 @@ namespace server.Controllers
                 return BadRequest(result);
             }
         }
-        //[HttpGet]
-        //public IActionResult Get(){
-        //    _messageHubContext.Clients.All.SendAsync("send","Hello from server");
-        //    return Ok();
-        //}
     }
 }

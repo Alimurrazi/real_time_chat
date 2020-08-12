@@ -8,7 +8,7 @@ namespace server.Storages
 {
     public class ConnectionMapping<T> : IConnectionMapping<T>
     {
-        private readonly Dictionary<T, HashSet<string>> _connections = new Dictionary<T, HashSet<string>>();
+        private readonly static Dictionary<T, HashSet<string>> _connections = new Dictionary<T, HashSet<string>>();
 
         public int Count
         {
