@@ -7,9 +7,10 @@ namespace server.Domain.Security
 {
     public class RefreshToken : JsonWebToken
     {
-        public RefreshToken(string token, long expiration): base(token, expiration)
+        public string UserId { get; private set; }
+        public RefreshToken(string token, long expiration, string userId): base(token, expiration)
         {
-
+            UserId = userId;
         }
     }
 }

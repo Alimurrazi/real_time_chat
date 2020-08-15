@@ -29,10 +29,10 @@ namespace server.Security.Tokens
 
         public AccessToken CreateAccessToken(User user)
         {
-            var refreshToken = BuildRefreshToken();
-            var accessToken = BuildAccessToken(user, refreshToken);
+            var refreshToken = BuildRefreshToken(user);
             _refreshTokenCollection.Add(refreshToken);
 
+            var accessToken = BuildAccessToken(user, refreshToken);
             return accessToken;
         }
 
@@ -64,11 +64,12 @@ namespace server.Security.Tokens
             return new AccessToken(accessToken, accessTokenExpiration.Ticks, refreshToken, user.Id);
         }
 
-        private RefreshToken BuildRefreshToken()
+        private RefreshToken BuildRefreshToken(User user)
         {
             var refreshToken = new RefreshToken(
                 token: _passwordHasher.GetHashedPassword(Guid.NewGuid().ToString()),
-                expiration: DateTime.UtcNow.AddSeconds(_tokenOptions.RefreshTokenExpiration).Ticks
+                expiration: DateTime.UtcNow.AddSeconds(_tokenOptions.RefreshTokenExpiration).Ticks,
+                userId: user.Id
                 );
             return refreshToken;
         }
@@ -85,12 +86,10 @@ namespace server.Security.Tokens
                 return null;
             }
 
-            // var refreshToken = _refreshTokens.SingleOrDefault(refreshToken => refreshToken.Token == token);
             var refreshToken = _refreshTokenCollection.getToken(token);
             if (refreshToken != null)
             {
                 _refreshTokenCollection.Revoke(token);
-            //    _refreshTokens.Remove(refreshToken);
             }
             return refreshToken;
         }

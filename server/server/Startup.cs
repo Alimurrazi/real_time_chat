@@ -65,7 +65,6 @@ namespace server
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();
             services.AddSingleton<IRefreshTokenCollection, RefreshTokenCollection>();
-            //services.AddSingleton<IConnectionMapping<T>, ConnectionMapping<T>>();
             services.AddControllers();
             services.AddSwaggerGen();
 

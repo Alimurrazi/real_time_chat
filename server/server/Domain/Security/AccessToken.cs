@@ -7,7 +7,6 @@ namespace server.Domain.Security
 {
     public class AccessToken: JsonWebToken
     {
-     //   public RefreshToken RefreshToken { get; private set; }
         public string RefreshToken { get; private set; }
         public string UserId { get; private set; }
 

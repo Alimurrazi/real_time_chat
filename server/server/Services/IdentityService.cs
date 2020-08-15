@@ -112,7 +112,7 @@ namespace server.Services
                 {
                     return GetErrorResponse("Expired refresh token");
                 }
-                User user = await _userRepository.GetUserByValue("Id", refreshTokenResource.userId);
+                User user = await _userRepository.GetUserById(refreshTokenResource.userId);
                 if (user == null)
                 {
                     return GetErrorResponse("Invalid refresh token");
@@ -136,7 +136,6 @@ namespace server.Services
         {
             try
             {
-             //   User user = await _userRepository.GetUserByValue("Id", userId);
                 User user = await _userRepository.GetUserById(userId);
                 return new BaseResponse(true, null, user);
             }

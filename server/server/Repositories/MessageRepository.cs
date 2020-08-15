@@ -19,7 +19,6 @@ namespace server.Repositories
         public async Task SaveMessageAsync(Message message)
         {
             await _messages.InsertOneAsync(message);
-           // throw new NotImplementedException();
         }
     }
 }
