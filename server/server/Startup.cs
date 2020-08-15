@@ -61,6 +61,7 @@ namespace server
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
             services.AddSingleton<ITokenHandler, TokenHandler>();

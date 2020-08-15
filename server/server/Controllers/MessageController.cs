@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using server.Services;
 using server.Domain.Services;
 using Microsoft.AspNetCore.Authorization;
+using server.Storages;
+using server.Responses;
 
 namespace server.Controllers
 {
@@ -17,10 +19,19 @@ namespace server.Controllers
     {
         private IHubContext<MessageHub> _messageHubContext;
         private readonly IMessageService _messageService;
+        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
         public MessageController(IHubContext<MessageHub> MessageHubContext, IMessageService messageService){
             _messageHubContext = MessageHubContext;
             _messageService = messageService;
+        }
+
+        [HttpGet("getActiveUsers")]
+        public async Task<IActionResult> GetActiveUsers()
+        {
+            var res = _connections.UserList();
+            var result = new BaseResponse(true, null, res);
+            return Ok(result);
         }
 
         [HttpPost]

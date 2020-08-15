@@ -22,11 +22,13 @@ namespace server.Repositories
             await _users.InsertOneAsync(user);
         }
 
-        public async Task<List<User>> GetUserByValue(string key, string value)
+        public async Task<List<User>> GetUserByValue(dynamic key, dynamic value)
         {
-
             var Filter = new BsonDocument(key, value);
             var userList = await _users.Find(Filter).ToListAsync();
+
+            //var Filter = Builders<BsonDocument>.Filter.Eq(key, value); ;
+        //    var userList = await _users.Find(user => user[key] == value);
 
             return userList;
         }

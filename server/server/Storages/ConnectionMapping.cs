@@ -73,5 +73,10 @@ namespace server.Storages
             var entries = _connections.Select(d => string.Format("\"{0}\": [\"{1}\"]", d.Key, string.Join(",", d.Value)));
             return "{" + string.Join(",", entries) + "}";
         }
+
+        public List<T> UserList()
+        {
+            return _connections.Keys.ToList();
+        }
     }
 }

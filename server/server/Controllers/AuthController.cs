@@ -28,7 +28,6 @@ namespace server.Controllers
                 return BadRequest(ModelState.GetErrorMessages());
             }
 
-
             var response = await _iidentityService.CreateAccessTokenAsync(userCredentialResource.Mail, userCredentialResource.Password);
 
             return Ok(response);
