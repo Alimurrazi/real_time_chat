@@ -32,9 +32,17 @@ namespace server.Services
             }
         }
 
-        public Task<BaseResponse> GetUserByValue(dynamic key, dynamic value)
+        public async Task<BaseResponse> GetUserByValue(dynamic key, dynamic value)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var users = await _userRepository.GetUserByValue(key, value);
+                return new BaseResponse(true, null, users);
+            }
+            catch (Exception ex)
+            {
+                return GetErrorResponse(ex.Message);
+            }
         }
 
         private BaseResponse GetErrorResponse(string msg)

@@ -24,12 +24,10 @@ namespace server.Repositories
 
         public async Task<List<User>> GetUserByValue(dynamic key, dynamic value)
         {
+            key = Convert.ToString(key);
+            value = Convert.ToString(value);
             var Filter = new BsonDocument(key, value);
             var userList = await _users.Find(Filter).ToListAsync();
-
-            //var Filter = Builders<BsonDocument>.Filter.Eq(key, value); ;
-        //    var userList = await _users.Find(user => user[key] == value);
-
             return userList;
         }
 

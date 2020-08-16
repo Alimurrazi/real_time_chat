@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Services;
+using server.Domain.Models;
 
 namespace server.Controllers
 {
@@ -12,10 +13,12 @@ namespace server.Controllers
     public class UserController : Controller
     {
         private IIdentityService _iidentityService;
+        private IUserService _userService;
 
-        public UserController(IIdentityService iidentityService)
+        public UserController(IIdentityService iidentityService, IUserService userService)
         {
             _iidentityService = iidentityService;
+            _userService = userService;
         }
 
         [HttpGet("getUserById/{userId}")]
@@ -26,9 +29,10 @@ namespace server.Controllers
         }
 
         [HttpPost("getUserByValue")]
-        public async Task<IActionResult> GetUserByValue([FromBody] )
+        public async Task<IActionResult> GetUserByValue([FromBody] KeyValue keyValue)
         {
-
+            var response = await _userService.GetUserByValue(keyValue.key, keyValue.value);
+            return Ok(response);
         }
     }
 }
