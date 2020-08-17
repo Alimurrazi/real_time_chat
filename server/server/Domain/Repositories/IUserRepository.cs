@@ -13,5 +13,6 @@ namespace server.Domain.Repositories
         Task<List<User>> GetUserByValue(dynamic key, dynamic value);
         Task<User> GetUserByCredential(string mail, string password);
         Task<User> GetUserById(string userId);
+        Task UpdateUser(User updatedUser);
     }
 }

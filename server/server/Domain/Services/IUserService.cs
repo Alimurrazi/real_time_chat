@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using server.Domain.Models;
 using server.Responses;
 
 namespace server.Domain.Services
@@ -10,5 +11,6 @@ namespace server.Domain.Services
     {
         Task<BaseResponse> GetUserById(string userId);
         Task<BaseResponse> GetUserByValue(dynamic key, dynamic value);
+        Task<BaseResponse> UpdateUser(User user);
     }
 }

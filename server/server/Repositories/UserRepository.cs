@@ -42,5 +42,10 @@ namespace server.Repositories
             var user = await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
             return user;
         }
+
+        public async Task UpdateUser(User updatedUser)
+        {
+            await _users.ReplaceOneAsync(user => user.Id == updatedUser.Id, updatedUser);
+        }
     }
 }

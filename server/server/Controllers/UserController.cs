@@ -34,5 +34,20 @@ namespace server.Controllers
             var response = await _userService.GetUserByValue(keyValue.key, keyValue.value);
             return Ok(response);
         }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        {
+            var response = await _userService.UpdateUser(user);
+            return Ok(response);
+        }
+
+        [HttpPost("changePassword")]
+
+        public async Task<IActionResult> ChangePassword([FromBody])
+        {
+            var response = await _userService.ChangePassword(user);
+            return Ok(response);
+        }
     }
 }
