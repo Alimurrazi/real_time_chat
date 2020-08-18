@@ -12,5 +12,6 @@ namespace server.Domain.Services
         Task<BaseResponse> GetUserById(string userId);
         Task<BaseResponse> GetUserByValue(dynamic key, dynamic value);
         Task<BaseResponse> UpdateUser(User user);
+        Task<BaseResponse> ChangePassword(PasswordChangeData passwordChangeData, string userId);
     }
 }

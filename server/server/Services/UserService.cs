@@ -62,6 +62,32 @@ namespace server.Services
             }
         }
 
+        public async Task<BaseResponse> ChangePassword(PasswordChangeData passwordChangeData, string userId)
+        {
+            try
+            {
+                User user = await _userRepository.GetUserById(userId);
+                if(_passwordHasher.GetHashedPassword(passwordChangeData.oldPassword) == user.Password)
+                {
+                    try
+                    {
+                        await _userRepository.ChangePassword(passwordChangeData.newPassword, userId);
+                        return new BaseResponse(true, null, null);
+                    }
+                    catch(Exception ex)
+                    {
+                        return GetErrorResponse(ex.Message);
+                    }
+                }
+                else
+                {
+                    return GetErrorResponse("Old password not match");
+                }
+            }catch(Exception ex)
+            {
+                return GetErrorResponse(ex.Message);
+            }
+        }
         private BaseResponse GetErrorResponse(string msg)
         {
             List<string> errorMsg = new List<string>();

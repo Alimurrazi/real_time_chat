@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using server.Domain.Services;
 using server.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : Controller
     {
         private IIdentityService _iidentityService;
@@ -44,9 +46,10 @@ namespace server.Controllers
 
         [HttpPost("changePassword")]
 
-        public async Task<IActionResult> ChangePassword([FromBody])
+        public async Task<IActionResult> ChangePassword([FromBody] PasswordChangeData passwordChangeData )
         {
-            var response = await _userService.ChangePassword(user);
+            var userId = HttpContext.User.Claims.First(claim => claim.Type == "NameIdentifier").Value;
+            var response = await _userService.ChangePassword(passwordChangeData, userId);
             return Ok(response);
         }
     }

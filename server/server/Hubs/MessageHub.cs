@@ -42,7 +42,6 @@ namespace server.Hubs
                     var principal = httpContext.User;
                     var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
                     _connections.Add(userId, Context.ConnectionId);
-//                    await Clients.All.SendAsync("UpdaedUserList", _connections.ToJson());
                     await Clients.All.SendAsync("UserOnline", userId);
                 }
                 catch (Exception ex)
@@ -62,7 +61,6 @@ namespace server.Hubs
                     var principal = httpContext.User;
                     var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
                     _connections.Remove(userId, Context.ConnectionId);
-//                    await Clients.All.SendAsync("UpdaedUserList", _connections.ToJson());
                     await Clients.All.SendAsync("UserOffline", userId);
                 }
                 catch (Exception ex)

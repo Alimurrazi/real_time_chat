@@ -47,5 +47,12 @@ namespace server.Repositories
         {
             await _users.ReplaceOneAsync(user => user.Id == updatedUser.Id, updatedUser);
         }
+
+        public async Task ChangePassword(string password, string userId)
+        {
+            var filter = Builders<User>.Filter.Eq("Id", userId);
+            var update = Builders<User>.Update.Set("Password", password);
+            _users.UpdateOne(filter, update);
+        }
     }
 }
