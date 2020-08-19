@@ -71,7 +71,8 @@ namespace server.Services
                 {
                     try
                     {
-                        await _userRepository.ChangePassword(passwordChangeData.newPassword, userId);
+                        var newPassword = _passwordHasher.GetHashedPassword(passwordChangeData.newPassword);
+                        await _userRepository.ChangePassword(newPassword, userId);
                         return new BaseResponse(true, null, null);
                     }
                     catch(Exception ex)

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using server.Domain.Services;
 using server.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace server.Controllers
 {
@@ -48,7 +49,11 @@ namespace server.Controllers
 
         public async Task<IActionResult> ChangePassword([FromBody] PasswordChangeData passwordChangeData )
         {
-            var userId = HttpContext.User.Claims.First(claim => claim.Type == "NameIdentifier").Value;
+
+            var principal = HttpContext.User;
+            var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //var userId = HttpContext.User.Claims.First(claim => claim.Type == "NameIdentifier").Value;
             var response = await _userService.ChangePassword(passwordChangeData, userId);
             return Ok(response);
         }
