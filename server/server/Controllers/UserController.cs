@@ -8,11 +8,13 @@ using server.Domain.Services;
 using server.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Reflection;
+using System.Text.Json;
 
 namespace server.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
+
     public class UserController : Controller
     {
         private IIdentityService _iidentityService;
@@ -39,8 +41,25 @@ namespace server.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateUser([FromBody] User user)
+        public async Task<IActionResult> UpdateUser([FromBody] dynamic user)
         {
+            string dynamicUser = JsonSerializer.Serialize(user);
+            //Type type = user.GetType();
+            //PropertyInfo[] properties = type.GetProperties();
+
+          //  object dynamicUser = user;
+          //  string[] propertyNames = o.GetType().GetProperties().Select(p => p.Name).ToArray();
+
+            Type type = dynamicUser.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                Console.WriteLine(property.GetValue(dynamicUser, null));
+                Console.WriteLine(property.Name);
+            }
+
+
             var response = await _userService.UpdateUser(user);
             return Ok(response);
         }
