@@ -33,6 +33,20 @@ namespace server.Controllers
             return Ok(response);
         }
 
+        [HttpPost("getAccessToken")]
+        public async Task<IActionResult> GetAccessTokenAsync([FromBody]UserCredentialResource userCredentialResource)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            var response = await _iidentityService.CreateAccessTokenAsync(userCredentialResource.Mail, userCredentialResource.Password);
+
+            return Ok(response);
+        }
+
         [HttpPost("token/refresh")]
 
         public async Task<IActionResult> RefreshTokenAsync([FromBody] RefreshTokenResource refreshTokenResource)

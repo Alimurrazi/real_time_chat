@@ -8,6 +8,7 @@ using server.Domain.Repositories;
 using server.Responses;
 using server.Security.Hashing;
 using server.Domain.Security.IPasswordHasher;
+using System.Reflection;
 
 namespace server.Services
 {
@@ -27,7 +28,6 @@ namespace server.Services
             try
             {
                 User user = await _userRepository.GetUserById(userId);
-                //            User user = await _userRepository.GetUserByValue("Id", userId);
                 return new BaseResponse(true, null, user);
             }
             catch (Exception ex)
@@ -49,11 +49,26 @@ namespace server.Services
             }
         }
 
-        public async Task<BaseResponse> UpdateUser(User user)
+        public async Task<BaseResponse> UpdateUser(User updatedUser)
         {
             try
             {
-                await _userRepository.UpdateUser(user);
+                User existedUser = await _userRepository.GetUserById(updatedUser.Id);
+                Type type = updatedUser.GetType();
+                PropertyInfo[] properties = type.GetProperties();
+
+                foreach (PropertyInfo property in properties)
+                {
+                    var propertyName = property.Name;
+                    var updatedUserValue = property.GetValue(updatedUser, null);
+                    var existedUserValue = property.GetValue(existedUser, null);
+
+                    if(updatedUserValue == null) {
+                        property.SetValue(updatedUser, existedUserValue, null);
+                    };
+                }
+
+                await _userRepository.UpdateUser(updatedUser);
                 return new BaseResponse(true, null, null);
             }
             catch(Exception ex)

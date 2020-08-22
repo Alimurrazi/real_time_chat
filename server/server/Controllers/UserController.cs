@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Reflection;
 using System.Text.Json;
+using System.Dynamic;
 
 namespace server.Controllers
 {
@@ -41,26 +42,12 @@ namespace server.Controllers
         }
 
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateUser([FromBody] dynamic user)
+        public async Task<IActionResult> UpdateUser([FromBody] User user)
         {
-            string dynamicUser = JsonSerializer.Serialize(user);
-            //Type type = user.GetType();
-            //PropertyInfo[] properties = type.GetProperties();
+            string serializedObject = JsonSerializer.Serialize(user);
+            User updatedUser = JsonSerializer.Deserialize<User>(serializedObject);
 
-          //  object dynamicUser = user;
-          //  string[] propertyNames = o.GetType().GetProperties().Select(p => p.Name).ToArray();
-
-            Type type = dynamicUser.GetType();
-            PropertyInfo[] properties = type.GetProperties();
-
-            foreach (PropertyInfo property in properties)
-            {
-                Console.WriteLine(property.GetValue(dynamicUser, null));
-                Console.WriteLine(property.Name);
-            }
-
-
-            var response = await _userService.UpdateUser(user);
+            var response = await _userService.UpdateUser(updatedUser);
             return Ok(response);
         }
 
@@ -72,7 +59,6 @@ namespace server.Controllers
             var principal = HttpContext.User;
             var userId = principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //var userId = HttpContext.User.Claims.First(claim => claim.Type == "NameIdentifier").Value;
             var response = await _userService.ChangePassword(passwordChangeData, userId);
             return Ok(response);
         }
