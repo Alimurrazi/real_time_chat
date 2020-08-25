@@ -7,16 +7,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
     component: SignupComponent
   }
 ];
 
 @NgModule({
-  declarations: [SignupComponent],
+  declarations: [SignupComponent, LoginComponent],
   imports: [
     CommonModule,
     MaterialModule,
