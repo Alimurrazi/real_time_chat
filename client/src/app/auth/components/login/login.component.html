@@ -4,8 +4,13 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Mail</mat-label>
-      <input matInput formControlName="mail">
+      <input type="email" matInput formControlName="mail">
     </mat-form-field>
+
+    <div *ngIf="(mailField.invalid && mailField.touched) || mailField.dirty">
+    	<mat-error *ngIf="mailField.errors?.required" class="text-danger">Email is required</mat-error>
+    	<mat-error *ngIf="mailField.errors?.pattern" class="text-danger">Please provide a valid email address</mat-error>
+  	</div>
 
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
