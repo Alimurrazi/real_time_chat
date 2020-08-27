@@ -10,6 +10,21 @@ export class AuthService {
   loggedInUser = new Subject();
   constructor(private http: HttpClient) {}
 
+
+  signUp(user) {
+    const data = {
+      Name: user.name,
+      Mail: user.mail,
+      Password: user.password,
+    };
+    const subject = new Subject();
+    const url = environment.url + '/auth/signup';
+    this.http.post(url, data).subscribe((res) => {
+      subject.next(res);
+    });
+    return subject.asObservable();
+  }
+
   logIn(user) {
     const data = {
       Mail: user.mail,
