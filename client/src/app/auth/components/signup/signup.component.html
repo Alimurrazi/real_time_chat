@@ -3,16 +3,44 @@
   <form class="py-32" [formGroup]="form" fxLayout="column">
 
     <mat-form-field appearance="outline">
-      <mat-label>Mail</mat-label>
-      <input matInput formControlName="mail">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required>
     </mat-form-field>
+
+    <div class="mb-12" *ngIf="(nameField.invalid && nameField.touched) || nameField.dirty">
+      <mat-error *ngIf="nameField.errors?.required" class="text-danger">Name is required</mat-error>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mail</mat-label>
+      <input matInput formControlName="mail" required>
+    </mat-form-field>
+
+    <div class="mb-12" *ngIf="(mailField.invalid && mailField.touched) || mailField.dirty">
+      <mat-error *ngIf="mailField.errors?.required" class="text-danger">Email is required</mat-error>
+      <mat-error *ngIf="mailField.errors?.pattern" class="text-danger">Please provide a valid email address</mat-error>
+    </div>
 
     <mat-form-field appearance="outline">
       <mat-label>Password</mat-label>
-      <input matInput formControlName="password">
+      <input matInput formControlName="password" required>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="submit(form.value)">Submit</button>
+    <div class="mb-12" *ngIf="(passwordField.invalid && passwordField.touched) || passwordField.dirty">
+    	<mat-error *ngIf="passwordField.errors?.required" class="text-danger">Password is required</mat-error>
+  	</div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Retype Password</mat-label>
+      <input matInput formControlName="retypePassword" required>
+    </mat-form-field>
+
+    <div class="mb-12" *ngIf="(retypePasswordField.invalid && retypePasswordField.touched) || retypePasswordField.dirty || retypePasswordField.touched">
+      <mat-error *ngIf="retypePasswordField.errors?.required" class="text-danger">Please Retype your password</mat-error>
+      <mat-error *ngIf=" retypePasswordField.value && (retypePasswordField.value !== passwordField.value)">Your retyped password does not match</mat-error>
+  	</div>
+
+    <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="submit(form.value)">Submit</button>
 
 </form>
 

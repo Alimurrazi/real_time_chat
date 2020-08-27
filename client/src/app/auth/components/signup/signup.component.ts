@@ -17,9 +17,27 @@ export class SignupComponent implements OnInit {
 
   formInit() {
     this.form = this.formBuilder.group({
-      mail: ['', Validators.required],
-      password: ['', Validators.required]
+      name: ['', Validators.required],
+      mail: ['', [Validators.required,
+        Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')
+      ]],
+      password: ['', Validators.required],
+      retypePassword: ['', Validators.required]
     });
+  }
+
+  get mailField() {
+    return this.form.get('mail');
+  }
+
+  get passwordField() {
+    return this.form.get('password');
+  }
+  get retypePasswordField() {
+    return this.form.get('retypePassword');
+  }
+  get nameField() {
+    return this.form.get('name');
   }
 
   ngOnInit(): void {

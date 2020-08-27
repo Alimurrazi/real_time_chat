@@ -7,7 +7,7 @@
       <input type="email" matInput formControlName="mail">
     </mat-form-field>
 
-    <div *ngIf="(mailField.invalid && mailField.touched) || mailField.dirty">
+    <div class="mb-12" *ngIf="(mailField.invalid && mailField.touched) || mailField.dirty">
     	<mat-error *ngIf="mailField.errors?.required" class="text-danger">Email is required</mat-error>
     	<mat-error *ngIf="mailField.errors?.pattern" class="text-danger">Please provide a valid email address</mat-error>
   	</div>
@@ -17,9 +17,14 @@
       <input matInput formControlName="password">
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="submit(form.value)">Submit</button>
+    <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="submit(form.value)">Submit</button>
 
 </form>
+
+<div>
+  <div>First Time?</div>
+  <div><a routerLink="/signup">Sign Up</a></div>
+</div>
 
 </div>
 
