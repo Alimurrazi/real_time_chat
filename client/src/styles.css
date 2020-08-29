@@ -1,8 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+.mx-12 {
+  margin-left: 12px;
+  margin-right: 12px;
+}
+
 .mb-12{
   margin-bottom: 12px;
+}
+
+.pb-12{
+  padding-bottom: 12px;
 }
 
 .py-32 {

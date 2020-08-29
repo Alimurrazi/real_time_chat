@@ -12,14 +12,9 @@ export class AuthService {
 
 
   signUp(user) {
-    const data = {
-      Name: user.name,
-      Mail: user.mail,
-      Password: user.password,
-    };
     const subject = new Subject();
     const url = environment.url + '/auth/signup';
-    this.http.post(url, data).subscribe((res) => {
+    this.http.post(url, user).subscribe((res) => {
       subject.next(res);
     });
     return subject.asObservable();
@@ -42,6 +37,15 @@ export class AuthService {
     const subject = new Subject();
     const url = environment.url + '/auth/getUserById/' + userId;
     this.http.get(url).subscribe((res) => {
+      subject.next(res);
+    });
+    return subject.asObservable();
+  }
+
+  getTokenByUserCredential(data) {
+    const subject = new Subject();
+    const url = environment.url + '/auth/getAccessToken';
+    this.http.post(url, data).subscribe((res) => {
       subject.next(res);
     });
     return subject.asObservable();

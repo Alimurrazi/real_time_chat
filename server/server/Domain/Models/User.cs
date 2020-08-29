@@ -13,10 +13,8 @@ namespace server.Domain.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-        [JsonIgnore]
         public string Mail { get; set; }
         public string Role { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
         public string ProfielImg { get; set; }
     }

@@ -8,9 +8,7 @@ namespace server.Resources
 {
     public class UserCredentialResource
     {
-  //      [Required]
         public string Mail { get; set; }
-    //    [Required]
         public string Password { get; set; }
     }
 }

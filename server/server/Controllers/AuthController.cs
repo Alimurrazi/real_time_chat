@@ -7,6 +7,7 @@ using server.Extensions;
 using server.Resources;
 using server.Domain.Services;
 using server.Domain.Security;
+using server.Domain.Models;
 
 namespace server.Controllers
 {
@@ -67,6 +68,25 @@ namespace server.Controllers
         {
             var response = await _iidentityService.GetUserById(userId);
             return Ok(response);
+        }
+
+        [HttpPost("signup")]
+        public async Task<IActionResult> PostAsync([FromBody]User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.GetErrorMessages());
+            }
+
+            var result = await _iidentityService.CreateUserAsync(user);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(result);
+            }
         }
     }
 }
