@@ -1,9 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .mx-12 {
   margin-left: 12px;
   margin-right: 12px;
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.mr-8 {
+  margin-right: 8px;
 }
 
 .mb-12{

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ export class AppComponent implements OnInit {
   public data;
   public bradcastedData;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient,
+    private router: Router){
   }
 
     notificationInit(){
@@ -26,6 +28,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
   //  this.notificationInit();
+  }
+
+  logout() {
+    localStorage.removeItem('real_time_chat_token');
+    localStorage.removeItem('loggedInUserId');
+    this.router.navigate(['']);
   }
 
   public startConnection = () => {
