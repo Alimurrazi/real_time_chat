@@ -14,7 +14,7 @@ namespace server.Repositories
         private readonly IMongoCollection<User> _users;
         public UserRepository(IDatabaseSettings settings):base(settings)
         {
-            _users = _database.GetCollection<User>(settings.UserCollectionName);
+            _users = (IMongoCollection<User>)_database.GetCollection<User>(settings.UserCollectionName);
         }
 
         public async Task CreateAsync(User user)
@@ -41,6 +41,12 @@ namespace server.Repositories
         {
             var user = await _users.Find(user => user.Id == id).FirstOrDefaultAsync();
             return user;
+        }
+
+        public async Task<List<User>> GetUsers(int pageNumber, int pageSize)
+        {
+            var userList = await _users.Find(user => true).Skip((pageNumber - 1) * pageSize).Limit(pageSize).ToListAsync();
+            return userList;
         }
 
         public async Task UpdateUser(User updatedUser)

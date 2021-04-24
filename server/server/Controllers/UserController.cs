@@ -62,5 +62,13 @@ namespace server.Controllers
             var response = await _userService.ChangePassword(passwordChangeData, userId);
             return Ok(response);
         }
+
+        [HttpGet("getUsers")]
+
+        public async Task<IActionResult> GetUsers(int pageNumber, int pageSize)
+        {
+            var response = await _userService.GetUsers(pageNumber, pageSize);
+            return Ok(response);
+        }
     }
 }

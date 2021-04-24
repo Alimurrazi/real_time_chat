@@ -36,6 +36,19 @@ namespace server.Services
             }
         }
 
+        public async Task<BaseResponse> GetUsers(int pageNumber, int pageSize)
+        {
+            try
+            {
+                var users = await _userRepository.GetUsers(pageNumber, pageSize);
+                return new BaseResponse(true, null, users);
+            }
+            catch (Exception ex)
+            {
+                return GetErrorResponse(ex.Message);
+            }
+        }
+
         public async Task<BaseResponse> GetUserByValue(dynamic key, dynamic value)
         {
             try

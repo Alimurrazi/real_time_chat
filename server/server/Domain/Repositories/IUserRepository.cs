@@ -15,5 +15,6 @@ namespace server.Domain.Repositories
         Task<User> GetUserById(string userId);
         Task UpdateUser(User updatedUser);
         Task ChangePassword(string password, string userId);
+        Task<List<User>> GetUsers(int pageNumber, int pageSize);
     }
 }
