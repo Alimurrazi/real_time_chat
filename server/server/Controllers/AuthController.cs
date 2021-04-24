@@ -71,7 +71,7 @@ namespace server.Controllers
         }
 
         [HttpPost("signup")]
-        //test
+        
         public async Task<IActionResult> PostAsync([FromBody]User user)
         {
             if (!ModelState.IsValid)
